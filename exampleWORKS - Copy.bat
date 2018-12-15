@@ -1,6 +1,5 @@
 ECHO OFF
 CLS
-fsutil fsinfo drives>drives.tmp
 :MENU
 ECHO.
 ECHO ...............................................
@@ -10,16 +9,20 @@ ECHO.
 ECHO 1 - Open CPU
 ECHO 2 - Display RAM
 ECHO 3 - Show ALL
-ECHO 4 - EXIT
+ECHO 4 - DISK
+ECHO 5 - EXIT
 ECHO.
 SET /P M=Type 1, 2, 3, or 4 then press ENTER:
 IF %M%==1 GOTO CPU
 IF %M%==2 GOTO RAM
 IF %M%==3 GOTO ALL
-IF %M%==4 GOTO EOF
-IF %M%==5 GOTO DISK
+IF %M%==4 GOTO DISK
+IF %M%==5 GOTO EOF
 :ALL
 CLS
+ECHO You Have chosen Display ALL
+ECHO Below is your RAM information:
+ECHO...............................................
 for /f "tokens=4" %%a in ('systeminfo ^| findstr Physical') do if defined totalMem (set availableMem=%%a) else (set totalMem=%%a)
 set totalMem=%totalMem:,=%
 set availableMem=%availableMem:,=%
@@ -27,6 +30,9 @@ set /a usedMem=totalMem-availableMem
 Echo Total Memory: %totalMem%
 Echo Used Memory: %usedMem%
 echo Available Memory: %availableMem%
+ECHO................................................
+ECHO This is Your CPU information
+ECHO................................................
 for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do echo Current Usage: %%p
 GOTO MENU
 :RAM
@@ -43,6 +49,8 @@ echo Available Memory: %availableMem%
 GOTO MENU
 :CPU
 CLS
+ECHO This is your CPU information
+ECHO................................................
 for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do echo Current CPU Usage: %%p 
 GOTO MENU
 :DISK
