@@ -33,6 +33,9 @@ echo Available Memory: %availableMem%
 ECHO................................................
 ECHO(This is your CPU information
 ECHO................................................
+ECHO(Your CPU model is:
+for /f "skip=1 tokens=*" %%f in ('wmic cpu get name') do ECHO( %%f
+ECHO................................................
 ECHO. CPU usage in %%:
 for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do ECHO( %%p
 ECHO................................................
@@ -55,6 +58,9 @@ GOTO MENU
 :CPU
 CLS
 ECHO(This is your CPU information
+ECHO................................................
+ECHO(Your CPU model is:
+for /f "skip=1 tokens=*" %%f in ('wmic cpu get name') do ECHO( %%f
 ECHO................................................
 ECHO. CPU usage in %%:
 for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do ECHO( %%p
