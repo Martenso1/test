@@ -1,9 +1,9 @@
-ECHO OFF
+@ECHO OFF
 CLS
 :MENU
 ECHO.
 ECHO ...............................................
-ECHO PRESS 1, 2 OR 3 to select your task, or 4 to EXIT.
+ECHO PRESS 1, 2 , 3 OR 4 to select your task, or 5 to EXIT.
 ECHO ...............................................
 ECHO.
 ECHO 1 - Open CPU
@@ -31,9 +31,14 @@ Echo Total Memory: %totalMem%
 Echo Used Memory: %usedMem%
 echo Available Memory: %availableMem%
 ECHO................................................
-ECHO This is Your CPU information
+ECHO(This is your CPU information
 ECHO................................................
-for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do echo Current Usage: %%p
+ECHO. CPU usage in %%:
+for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do ECHO( %%p
+ECHO................................................
+ECHO(This is your Disk Information
+ECHO................................................
+WMIC LOGICALDISK GET SIZE,FREESPACE,CAPTION
 GOTO MENU
 :RAM
 CLS
@@ -49,17 +54,11 @@ echo Available Memory: %availableMem%
 GOTO MENU
 :CPU
 CLS
-ECHO This is your CPU information
+ECHO(This is your CPU information
 ECHO................................................
-for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do echo Current CPU Usage: %%p 
+ECHO. CPU usage in %%:
+for /f "skip=1" %%p in ('wmic cpu get loadpercentage') do ECHO( %%p
 GOTO MENU
 :DISK
-FOR /f "tokens=1*delims=:" %%i IN ('fsutil volume diskfree %volume%') DO (
-    SET "diskfree=!disktotal!"
-    SET "disktotal=!diskavail!"
-    SET "diskavail=%%j")
-FOR /f "tokens=1,2" %%i IN ("%disktotal% %diskavail%") DO SET "disktotal=%%i"& SET "diskavail=%%j"
-ECHO Information for volume %volume%
-ECHO total  %disktotal:~0,-9% GB
-ECHO avail. %diskavail:~0,-9% GB
+WMIC LOGICALDISK GET SIZE,FREESPACE,CAPTION
 GOTO MENU
